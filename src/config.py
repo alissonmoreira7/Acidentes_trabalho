@@ -1,0 +1,1 @@
+ARQUIVO = "../data/reclamacoes.csv"

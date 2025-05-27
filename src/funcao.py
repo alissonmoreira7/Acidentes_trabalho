@@ -1,7 +1,7 @@
 import csv
 import os
-import datetime
-from controle import ARQUIVO
+from datetime import datetime
+from config import ARQUIVO
 
 #Menu de controle do programa
 def menu():
@@ -24,11 +24,13 @@ def obter_ultimo_id():
 
 #Cadastar reclamação
 def cadastrar_reclamacao():
+    os.makedirs(os.path.dirname(ARQUIVO), exist_ok=True)
+    
     ultimo_id = obter_ultimo_id()
     with open(ARQUIVO,'a', newline='') as arquivo:
         dados_arquivo = csv.writer(arquivo)
 
-        if os.stats(ARQUIVO).st_size == 0: #Se está vazio, insira o cabeçalho.
+        if os.stat(ARQUIVO).st_size == 0: #Se está vazio, insira o cabeçalho.
             dados_arquivo.writerow(['id', 'tipo', 'local', 'data'])
 
         while True:
