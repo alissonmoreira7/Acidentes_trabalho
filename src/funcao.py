@@ -1,16 +1,10 @@
+#PROBLEMA: LOOPING NA FUNÇÃO DE CADASTRO E NÃO ESTÁ COLOCANDO OS DADOS NO ARQUIVO CSV.
 import csv
 import os
+from tkinter import *
+from tkinter import messagebox
 from datetime import datetime
 from config import ARQUIVO
-
-#Menu de controle do programa
-def menu():
-    print('-=-'*15)
-    print(' '*9, 'Cadastro de Reclamações')
-    print('-=-'*15)
-    print('Cadastrar reclamação   [ 1 ]')
-    print('Visualizar reclamações [ 2 ]')
-    print('Sair do programa       [ 3 ]')
 
 #Obtendo o último id
 def obter_ultimo_id():
@@ -24,33 +18,32 @@ def obter_ultimo_id():
 
 #Cadastar reclamação
 def cadastrar_reclamacao():
-    os.makedirs(os.path.dirname(ARQUIVO), exist_ok=True)
-    
-    ultimo_id = obter_ultimo_id()
-    with open(ARQUIVO,'a', newline='') as arquivo:
-        dados_arquivo = csv.writer(arquivo)
+    janela_cad = Toplevel()
+    janela_cad.title('Cadastrar reclamação')
 
-        if os.stat(ARQUIVO).st_size == 0: #Se está vazio, insira o cabeçalho.
-            dados_arquivo.writerow(['id', 'tipo', 'local', 'data'])
+    # Labels (textos fixos)
+    Label(janela_cad, text='Tipo da reclamação: ').grid(column=0, row=0)
+    Label(janela_cad, text='Local: ').grid(column=0, row=1)
+    Label(janela_cad, text='Data: ').grid(column=0, row=2)
 
-        while True:
-            tipo = input('Qual é o tipo da sua reclamação? ').strip()
-            local = input('Qual foi o local da ocorrência? ').strip()
-            date = input('Qual foi a data do ocorrido? (DD/MM/AAAA): ').strip()
+    tipo_entry = Entry(janela_cad)
+    local_entry = Entry(janela_cad)
+    data_entry = Entry(janela_cad)
 
-            #Válidando a entrada correta da data e formatada.
-            try:
-                datetime.strptime(date, "%d/%m/%Y")
-            except ValueError:
-                print('Data inválida! Use o formato DD/MM/AAAA.')
-                continue 
+    tipo_entry.grid(column=1, row=0)
+    local_entry.grid(column=1, row=1)
+    data_entry.grid(column=1, row=2)
 
-            if tipo and local and date:
-                ultimo_id += 1
-                dados_arquivo.writerow([ultimo_id, tipo, local, date])
-                print('Reclamação cadastrada com sucesso!!!')
-            else:
-                print('Todos os campos são necessários!!!')
+    def salvar():
+        tipo = tipo_entry.get()
+        local = local_entry.get()
+        data = data_entry.get
+
+        if not tipo or not local or not data:
+            messagebox.showwarning("Aviso", "Preencha todos os campos!")
+            return
+        
+        
 
 #Visualizando as reclamações do arquivo .CSV
 def visualizar_reclamacoes():

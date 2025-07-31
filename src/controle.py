@@ -6,10 +6,10 @@ import csv
 import os
 from funcao import visualizar_reclamacoes, cadastrar_reclamacao, obter_ultimo_id, menu
 from config import ARQUIVO
+
 ARQUIVO = "../data/reclamacoes.csv"
 
 while True:
-    print('Iniciando o programa...')
     menu()
 
     while True:
