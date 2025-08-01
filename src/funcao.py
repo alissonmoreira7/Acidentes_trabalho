@@ -17,32 +17,59 @@ def obter_ultimo_id():
         return int(linhas[-1][0])
 
 #Cadastar reclamação
-def cadastrar_reclamacao():
+def cadastrar_acidente():
     janela_cad = Toplevel()
-    janela_cad.title('Cadastrar reclamação')
+    janela_cad.title('Cadastrar Acidente')
 
     # Labels (textos fixos)
-    Label(janela_cad, text='Tipo da reclamação: ').grid(column=0, row=0)
+    Label(janela_cad, text='Tipo de acidente: ').grid(column=0, row=0)
     Label(janela_cad, text='Local: ').grid(column=0, row=1)
     Label(janela_cad, text='Data: ').grid(column=0, row=2)
+    Label(janela_cad, text='Classificação: ').grid(column=0, row=3)
 
     tipo_entry = Entry(janela_cad)
     local_entry = Entry(janela_cad)
     data_entry = Entry(janela_cad)
+    classificao_entry = Entry(janela_cad)
 
     tipo_entry.grid(column=1, row=0)
     local_entry.grid(column=1, row=1)
     data_entry.grid(column=1, row=2)
+    classificao_entry.grid(column=1, row=3)
 
     def salvar():
         tipo = tipo_entry.get()
         local = local_entry.get()
-        data = data_entry.get
+        data = data_entry.get()
+        classificacao = classificao_entry.get()
 
         if not tipo or not local or not data:
             messagebox.showwarning("Aviso", "Preencha todos os campos!")
             return
         
+        campos = ['Tipo', 'Local', 'Data', 'Classificação']
+        novo_acidente = {
+            'Tipo': tipo,
+            'Local': local,
+            'Data': data,
+            'Classificação': classificacao
+
+        }
+        
+
+        with open(ARQUIVO, 'a', newline='', encoding='utf-8') as arquivo:
+            df_csv = csv.DictWriter(arquivo, fieldnames=campos)
+            
+            # Cabeçalho da tabela
+            if os.stat(ARQUIVO).st_size == 0:
+                df_csv.writeheader() #Cabeçalho
+
+            df_csv.writerow(novo_acidente)
+
+        messagebox.showinfo('Sucesso', 'Acidente cadastrado com sucesso!')
+        janela_cad.destroy()
+
+    Button(janela_cad, text='Salvar', command=salvar).grid(row=4, column=0, columnspan=2)
         
 
 #Visualizando as reclamações do arquivo .CSV
