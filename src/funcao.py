@@ -53,10 +53,8 @@ def cadastrar_acidente():
             'Local': local,
             'Data': data,
             'Classificação': classificacao
-
         }
         
-
         with open(ARQUIVO, 'a', newline='', encoding='utf-8') as arquivo:
             df_csv = csv.DictWriter(arquivo, fieldnames=campos)
             
@@ -71,14 +69,27 @@ def cadastrar_acidente():
 
     Button(janela_cad, text='Salvar', command=salvar).grid(row=4, column=0, columnspan=2)
         
-
 #Visualizando as reclamações do arquivo .CSV
-def visualizar_reclamacoes():
+def visualizar_acidentes():
+
+    janela_ver = Toplevel()
+    janela_ver.title('Ver acidentes')
+
+    
+
     if not os.path.exists(ARQUIVO) or os.stat(ARQUIVO).st_size == 0:
         print('Atenção! Nenhuma reclamação cadastradas.')
         return
     
     with open(ARQUIVO, 'r') as arquivo:
         leitor = csv.reader(arquivo)
+
+
         for linha in leitor:
-            print(f"{linha[0]:<4} | {linha[1]:<20} | {linha[2]:<20} | {linha[3]}")
+            texto = print(f"{linha[0]:<4} | {linha[1]:<20} | {linha[2]:<20} | {linha[3]}")
+
+        
+        Label(janela_ver, text=texto).grid(row=1, column=1)
+
+    janela_ver.mainloop()
+    
