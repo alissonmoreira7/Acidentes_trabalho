@@ -75,21 +75,17 @@ def visualizar_acidentes():
     janela_ver = Toplevel()
     janela_ver.title('Ver acidentes')
 
-    
-
     if not os.path.exists(ARQUIVO) or os.stat(ARQUIVO).st_size == 0:
         print('Atenção! Nenhuma reclamação cadastradas.')
         return
     
-    with open(ARQUIVO, 'r') as arquivo:
+    with open(ARQUIVO, 'r', encoding='utf-8') as arquivo:
         leitor = csv.reader(arquivo)
 
-
+        texto = ''
         for linha in leitor:
-            texto = print(f"{linha[0]:<4} | {linha[1]:<20} | {linha[2]:<20} | {linha[3]}")
+            texto += f"{linha[0]:<4} | {linha[1]:<20} | {linha[2]:<20} | {linha[3]}\n"
 
-        
-        Label(janela_ver, text=texto).grid(row=1, column=1)
+        Label(janela_ver, text=texto, justify='left').grid(row=0, column=0)
 
     janela_ver.mainloop()
-    

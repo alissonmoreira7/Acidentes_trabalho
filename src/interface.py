@@ -17,6 +17,7 @@ def interface_grafica():
     bt2 = Button(janela, text='Ver Acidente', command=visualizar_acidentes)
     bt2.grid(column=1, row=3, padx=50)
 
+
     janela.mainloop()
 
 interface_grafica()
