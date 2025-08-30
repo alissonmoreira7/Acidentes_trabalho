@@ -3,8 +3,8 @@ import csv
 import os
 from tkinter import *
 from tkinter import messagebox
-from datetime import datetime
 from config import ARQUIVO
+
 
 #Obtendo o último id
 def obter_ultimo_id():
@@ -15,11 +15,12 @@ def obter_ultimo_id():
         if len(linhas) <= 1: #Se linhas tem uma ou nada de conteúdo quer dizer que ou tem o cabeçalho ou nada.
              return 0
         return int(linhas[-1][0])
-
+    
 #Cadastar reclamação
 def cadastrar_acidente():
     janela_cad = Toplevel()
     janela_cad.title('Cadastrar Acidente')
+    janela_cad.geometry('400x200')
 
     # Labels (textos fixos)
     Label(janela_cad, text='Tipo de acidente: ').grid(column=0, row=0)
@@ -71,7 +72,6 @@ def cadastrar_acidente():
         
 #Visualizando as reclamações do arquivo .CSV
 def visualizar_acidentes():
-
     janela_ver = Toplevel()
     janela_ver.title('Ver acidentes')
 
